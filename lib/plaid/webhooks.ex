@@ -387,6 +387,36 @@ defmodule Plaid.Webhooks do
     end
   end
 
+  defmodule IdentityVerification do
+    @moduledoc """
+    [Plaid Identity Verification webhooks schema.](https://plaid.com/docs/api/products/identity-verification/#status_updated)
+
+    Used with `STATUS_UPDATED`, `STEP_UPDATED`, and `RETRIED` webhooks of type
+    `IDENTITY_VERIFICATION`.
+    """
+
+    @behaviour Castable
+
+    @type t :: %__MODULE__{
+            webhook_type: String.t(),
+            webhook_code: String.t(),
+            identity_verification_id: String.t(),
+            environment: String.t()
+          }
+
+    defstruct [:webhook_type, :webhook_code, :identity_verification_id, :environment]
+
+    @impl true
+    def cast(generic_map) do
+      %__MODULE__{
+        webhook_type: generic_map["webhook_type"],
+        webhook_code: generic_map["webhook_code"],
+        identity_verification_id: generic_map["identity_verification_id"],
+        environment: generic_map["environment"]
+      }
+    end
+  end
+
   defmodule InvestmentsTransactionsUpdate do
     @moduledoc """
     [Plaid INVESTMENTS_TRANSACTIONS: DEFAULT_UPDATE webhooks schema](https://plaid.com/docs/api/webhooks/#investments_transactions-default_update)
@@ -492,6 +522,9 @@ defmodule Plaid.Webhooks do
   defp struct_module("ASSETS", "PRODUCT_READY"), do: AssetsProductReady
   defp struct_module("ASSETS", "ERROR"), do: AssetsError
   defp struct_module("HOLDINGS", "DEFAULT_UPDATE"), do: HoldingsUpdate
+  defp struct_module("IDENTITY_VERIFICATION", "STATUS_UPDATED"), do: IdentityVerification
+  defp struct_module("IDENTITY_VERIFICATION", "STEP_UPDATED"), do: IdentityVerification
+  defp struct_module("IDENTITY_VERIFICATION", "RETRIED"), do: IdentityVerification
 
   defp struct_module("INVESTMENTS_TRANSACTIONS", "DEFAULT_UPDATE"),
     do: InvestmentsTransactionsUpdate

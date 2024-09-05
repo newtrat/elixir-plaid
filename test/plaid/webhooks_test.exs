@@ -401,6 +401,35 @@ defmodule Plaid.WebhooksTest do
         )
     end
 
+    test "identity verification webhooks", %{api_host: api_host} do
+      for code <- ["STATUS_UPDATED", "STEP_UPDATED", "RETRIED"] do
+        raw_body =
+          ~s<{
+               "webhook_type": "IDENTITY_VERIFICATION",
+               "webhook_code": "> <>
+            code <>
+            ~s<",
+               "identity_verification_id": "idv_52xR9LKo77r1Np",
+               "environment": "production"
+             }>
+
+        jwt = create_jwt(raw_body)
+
+        assert {:ok,
+                %Plaid.Webhooks.IdentityVerification{
+                  webhook_type: "IDENTITY_VERIFICATION",
+                  webhook_code: ^code,
+                  identity_verification_id: "idv_52xR9LKo77r1Np",
+                  environment: "production"
+                }} =
+                 Plaid.Webhooks.verify_and_construct(jwt, raw_body,
+                   client_id: "abc",
+                   secret: "123",
+                   test_api_host: api_host
+                 )
+      end
+    end
+
     test "investments transactions default update webhook", %{api_host: api_host} do
       raw_body =
         ~s<{"webhook_type": "INVESTMENTS_TRANSACTIONS", "webhook_code": "DEFAULT_UPDATE", "item_id": "wz666MBjYWTp2PDzzggYhM6oWWmBb", "error": null, "new_investments_transactions": 16, "canceled_investments_transactions": 0}>
