@@ -1,4 +1,4 @@
-defmodule Plaid.IdentityVerification.DocumentaryVerification.Document.Image do
+defmodule Plaid.IdentityVerification.DocumentaryVerification.Document.Images do
   @moduledoc """
   [URLs for an image submitted for Plaid Identity Verification.](https://plaid.com/docs/api/products/identity-verification/#identity_verification-create-response-documentary-verification-documents-images)
   """

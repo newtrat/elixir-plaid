@@ -8,7 +8,7 @@ defmodule Plaid.IdentityVerification.DocumentaryVerification.Document do
   alias Plaid.IdentityVerification.DocumentaryVerification.Document.{
     Analysis,
     ExtractedData,
-    Image
+    Images
   }
 
   @behaviour Castable
@@ -16,7 +16,7 @@ defmodule Plaid.IdentityVerification.DocumentaryVerification.Document do
   @type t :: %__MODULE__{
           status: String.t(),
           attempt: integer(),
-          images: [Image.t()],
+          images: [Images.t()],
           extracted_data: ExtractedData.t(),
           analysis: Analysis.t(),
           redacted_at: String.t() | nil
@@ -29,7 +29,7 @@ defmodule Plaid.IdentityVerification.DocumentaryVerification.Document do
     %__MODULE__{
       status: generic_map["status"],
       attempt: generic_map["attempt"],
-      images: Castable.cast_list(Image, generic_map["images"]),
+      images: Castable.cast(Images, generic_map["images"]),
       extracted_data: Castable.cast(ExtractedData, generic_map["extracted_data"]),
       analysis: Castable.cast(Analysis, generic_map["analysis"]),
       redacted_at: generic_map["redacted_at"]
