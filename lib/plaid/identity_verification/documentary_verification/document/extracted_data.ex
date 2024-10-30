@@ -5,7 +5,7 @@ defmodule Plaid.IdentityVerification.DocumentaryVerification.Document.ExtractedD
 
   alias Plaid.Castable
   alias Plaid.IdentityVerification.DocumentaryVerification.Document.ExtractedData.Address
-  alias Plaid.IdentityVerification.DocumentaryVerification.User.Name
+  alias Plaid.IdentityVerification.User.Name
 
   @behaviour Castable
 
